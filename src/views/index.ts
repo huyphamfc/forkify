@@ -1,1 +1,1 @@
-export { default as RecipeView } from './recipe.view';
+export { default as recipeView } from './recipe.view';

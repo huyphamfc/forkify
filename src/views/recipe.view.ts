@@ -2,8 +2,7 @@ import icons from '../assets/images/icons.svg';
 import { Ingredient, Recipe } from '../types';
 
 class RecipeView {
-  constructor(private _containerElement: Element) {}
-
+  private _containerElement = document.querySelector('.recipe');
   private _recipe!: Recipe;
 
   private _generateIngredientMarkup() {
@@ -101,8 +100,14 @@ class RecipeView {
   }
 
   private _renderMarkup(markup: string) {
+    if (!this._containerElement) return;
+
     this._containerElement.innerHTML = '';
     this._containerElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  addEventHandler(handler: () => Promise<void>) {
+    ['hashchange', 'load'].forEach((e) => window.addEventListener(e, handler));
   }
 
   renderSpinner() {
@@ -124,4 +129,4 @@ class RecipeView {
   }
 }
 
-export default RecipeView;
+export default new RecipeView();

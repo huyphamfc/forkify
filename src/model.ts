@@ -8,6 +8,7 @@ export const state = {
 };
 
 export const loadRecipe = async (id: string) => {
+  // eslint-disable-next-line no-useless-catch
   try {
     const result = await getJSON(`${API_URL}/${id}`);
 
@@ -23,6 +24,6 @@ export const loadRecipe = async (id: string) => {
       ingredients: recipe.ingredients,
     };
   } catch (err) {
-    console.error(err);
+    throw err;
   }
 };
