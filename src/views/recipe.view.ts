@@ -4,6 +4,7 @@ import { Ingredient, Recipe } from '../types';
 class RecipeView {
   private _containerElement = document.querySelector('.recipe');
   private _recipe!: Recipe;
+  private _errMsg = 'We could not find that recipe. Please try another again.';
 
   private _generateIngredientMarkup() {
     return this._recipe.ingredients
@@ -116,6 +117,36 @@ class RecipeView {
         <svg>
           <use href="${icons}#icon-loader"></use>
         </svg>
+      </div>
+    `;
+
+    this._renderMarkup(markup);
+  }
+
+  renderMessage(message = '') {
+    const markup = `
+    <div class="message">
+      <div>
+        <svg>
+          <use href="${icons}#icon-smile"></use>
+        </svg>
+      </div>
+      <p>${message}</p>
+    </div>
+    `;
+
+    this._renderMarkup(markup);
+  }
+
+  renderErrorMessage(message: string = this._errMsg) {
+    const markup = `
+      <div class="error">
+        <div>
+          <svg>
+            <use href="${icons}#icon-alert-triangle"></use>
+          </svg>
+        </div>
+        <p>${message}</p>
       </div>
     `;
 

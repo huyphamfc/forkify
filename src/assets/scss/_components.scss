@@ -194,12 +194,12 @@
   padding: 5rem 4rem;
 
   display: flex;
+  align-items: center;
 
   svg {
     height: 3rem;
     width: 3rem;
     fill: $color-primary;
-    transform: translateY(-0.3rem);
   }
 
   p {

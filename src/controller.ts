@@ -12,7 +12,7 @@ const recipeController = async () => {
 
     recipeView.render(recipeModel.state.recipe);
   } catch (err) {
-    console.error(err);
+    recipeView.renderErrorMessage();
   }
 };
 
