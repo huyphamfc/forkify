@@ -1,5 +1,5 @@
-import * as recipeModel from './model';
-import { recipeView } from './views';
+import * as recipeModel from '../model';
+import { recipeView } from '../views';
 
 const recipeController = async () => {
   try {
@@ -10,7 +10,7 @@ const recipeController = async () => {
 
     await recipeModel.loadRecipe(id);
 
-    recipeView.render(recipeModel.state.recipe);
+    recipeView.render();
   } catch (err) {
     recipeView.renderErrorMessage();
   }
