@@ -1,13 +1,11 @@
+import { state } from '../model';
+import View from './view';
+import { Ingredient } from '../types';
 import icons from '../assets/images/icons.svg';
-import { Ingredient, Recipe } from '../types';
 
-class RecipeView {
-  private _recipeContainer = document.querySelector('.recipe') as HTMLDivElement;
-  private _recipe = {} as Recipe;
-  private _errMsg = 'We could not find that recipe. Please try another again.';
-
+class RecipeView extends View {
   private _generateIngredientMarkup() {
-    return this._recipe.ingredients
+    return state.recipe.ingredients
       .map(
         (item: Ingredient) => `
           <li class="recipe__ingredient">
@@ -25,12 +23,12 @@ class RecipeView {
       .join('');
   }
 
-  private _generateRecipeMarkup() {
+  protected override _generateMarkup() {
     return `
       <figure class="recipe__fig">
-        <img src="${this._recipe.imgUrl}" alt="${this._recipe.title}" class="recipe__img" />
+        <img src="${state.recipe.imgUrl}" alt="${state.recipe.title}" class="recipe__img" />
         <h1 class="recipe__title">
-          <span>${this._recipe.title}</span>
+          <span>${state.recipe.title}</span>
         </h1>
       </figure>
       <div class="recipe__details">
@@ -39,7 +37,7 @@ class RecipeView {
             <use href="${icons}#icon-clock"></use>
           </svg>
           <span class="recipe__info-data recipe__info-data--minutes">${
-            this._recipe.cookingTime
+            state.recipe.cookingTime
           }</span>
           <span class="recipe__info-text">minutes</span>
         </div>
@@ -47,7 +45,7 @@ class RecipeView {
           <svg class="recipe__info-icon">
             <use href="${icons}#icon-users"></use>
           </svg>
-          <span class="recipe__info-data recipe__info-data--people">${this._recipe.servings}</span>
+          <span class="recipe__info-data recipe__info-data--people">${state.recipe.servings}</span>
           <span class="recipe__info-text">servings</span>
           <div class="recipe__info-buttons">
             <button class="btn--tiny btn--increase-servings">
@@ -62,11 +60,7 @@ class RecipeView {
             </button>
           </div>
         </div>
-        <div class="recipe__user-generated">
-          <svg>
-            <use href="${icons}#icon-user"></use>
-          </svg>
-        </div>
+        <div class="recipe__user-generated"></div>
         <button class="btn--round">
           <svg class="">
             <use href="${icons}#icon-bookmark-fill"></use>
@@ -83,12 +77,12 @@ class RecipeView {
         <h2 class="heading--2">How to cook it</h2>
         <p class="recipe__directions-text">
           This recipe was carefully designed and tested by
-          <span class="recipe__publisher">${this._recipe.publisher}</span>. Please
+          <span class="recipe__publisher">${state.recipe.publisher}</span>. Please
           check out directions at their website.
         </p>
         <a
           class="btn--small recipe__btn"
-          href="${this._recipe.sourceUrl}"
+          href="${state.recipe.sourceUrl}"
           target="_blank"
         >
           <span>Directions</span>
@@ -100,62 +94,12 @@ class RecipeView {
     `;
   }
 
-  private _renderMarkup(markup: string) {
-    this._recipeContainer.innerHTML = '';
-    this._recipeContainer.insertAdjacentHTML('afterbegin', markup);
-  }
+  protected override _errMsg = 'We could not find that recipe. Please try another again.';
 
   addEventHandler(handler: () => Promise<void>) {
     ['hashchange', 'load'].forEach((e) => window.addEventListener(e, handler));
   }
-
-  renderSpinner() {
-    const markup = `
-      <div class="spinner">
-        <svg>
-          <use href="${icons}#icon-loader"></use>
-        </svg>
-      </div>
-    `;
-
-    this._renderMarkup(markup);
-  }
-
-  renderMessage(message = '') {
-    const markup = `
-    <div class="message">
-      <div>
-        <svg>
-          <use href="${icons}#icon-smile"></use>
-        </svg>
-      </div>
-      <p>${message}</p>
-    </div>
-    `;
-
-    this._renderMarkup(markup);
-  }
-
-  renderErrorMessage(message: string = this._errMsg) {
-    const markup = `
-      <div class="error">
-        <div>
-          <svg>
-            <use href="${icons}#icon-alert-triangle"></use>
-          </svg>
-        </div>
-        <p>${message}</p>
-      </div>
-    `;
-
-    this._renderMarkup(markup);
-  }
-
-  render(recipe: Recipe) {
-    this._recipe = recipe;
-    const markup = this._generateRecipeMarkup();
-    this._renderMarkup(markup);
-  }
 }
 
-export default new RecipeView();
+const recipeContainer = document.querySelector('.recipe') as HTMLDivElement;
+export default new RecipeView(recipeContainer);
