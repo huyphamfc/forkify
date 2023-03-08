@@ -2,8 +2,8 @@ import icons from '../assets/images/icons.svg';
 import { Ingredient, Recipe } from '../types';
 
 class RecipeView {
-  private _containerElement = document.querySelector('.recipe');
-  private _recipe!: Recipe;
+  private _recipeContainer = document.querySelector('.recipe') as HTMLDivElement;
+  private _recipe = {} as Recipe;
   private _errMsg = 'We could not find that recipe. Please try another again.';
 
   private _generateIngredientMarkup() {
@@ -101,10 +101,8 @@ class RecipeView {
   }
 
   private _renderMarkup(markup: string) {
-    if (!this._containerElement) return;
-
-    this._containerElement.innerHTML = '';
-    this._containerElement.insertAdjacentHTML('afterbegin', markup);
+    this._recipeContainer.innerHTML = '';
+    this._recipeContainer.insertAdjacentHTML('afterbegin', markup);
   }
 
   addEventHandler(handler: () => Promise<void>) {
