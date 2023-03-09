@@ -56,8 +56,25 @@ export default abstract class View {
 
   render() {
     const markup = this._generateMarkup();
-
     if (!markup) return this.renderErrorMessage();
+
+    const previousDOM = Array.from(this._container.querySelectorAll('*'));
+    const currentDOM = Array.from(
+      document.createRange().createContextualFragment(markup).querySelectorAll('*'),
+    );
+
+    currentDOM.forEach((element: Element, i: number) => {
+      if (element.isEqualNode(previousDOM[i])) return;
+      if (
+        !element.firstChild ||
+        !element.firstChild.nodeValue ||
+        element.firstChild.nodeValue.trim() === ''
+      )
+        return;
+
+      currentDOM[i].textContent = element.textContent;
+    });
+
     this._renderMarkup(markup);
   }
 }
