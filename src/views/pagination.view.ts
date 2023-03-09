@@ -10,10 +10,11 @@ class PaginationView extends View {
       const btn = e.target.closest('.btn--inline') as HTMLButtonElement;
       if (!btn) return;
 
-      const goToPage = btn.dataset.goto;
-      if (!goToPage) return;
-
-      state.search.page = +goToPage;
+      if (btn.classList.contains('pagination__btn--next')) {
+        state.search.page++;
+      } else {
+        state.search.page--;
+      }
 
       handler();
     });
@@ -29,7 +30,7 @@ class PaginationView extends View {
 
     if (page === 1) {
       return `
-        <button data-goto="${page + 1}" class="btn--inline pagination__btn--next">
+        <button class="btn--inline pagination__btn--next">
           <span>Page ${page + 1}</span>
           <svg class="search__icon">
             <use href="${icons}#icon-arrow-right"></use>
@@ -40,7 +41,7 @@ class PaginationView extends View {
 
     if (page === numberOfPages) {
       return `
-        <button data-goto="${page - 1}" class="btn--inline pagination__btn--prev">
+        <button class="btn--inline pagination__btn--prev">
           <svg class="search__icon">
             <use href="${icons}#icon-arrow-left"></use>
           </svg>
@@ -50,13 +51,13 @@ class PaginationView extends View {
     }
 
     return `
-      <button data-goto="${page - 1}" class="btn--inline pagination__btn--prev">
+      <button class="btn--inline pagination__btn--prev">
         <svg class="search__icon">
           <use href="${icons}#icon-arrow-left"></use>
         </svg>
         <span>Page ${page - 1}</span>
       </button>
-      <button data-goto="${page + 1}" class="btn--inline pagination__btn--next">
+      <button class="btn--inline pagination__btn--next">
         <span>Page ${page + 1}</span>
         <svg class="search__icon">
           <use href="${icons}#icon-arrow-right"></use>
