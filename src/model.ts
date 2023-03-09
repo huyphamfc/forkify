@@ -13,6 +13,7 @@ interface State {
     page: number;
     resultsPerPage: number;
   };
+  bookmarks: SearchResult[];
 }
 
 export const state: State = {
@@ -23,6 +24,7 @@ export const state: State = {
     page: 1,
     resultsPerPage,
   },
+  bookmarks: [],
 };
 
 export const loadRecipe = async (id: string) => {
@@ -40,6 +42,8 @@ export const loadRecipe = async (id: string) => {
       cookingTime: recipe.cooking_time,
       ingredients: recipe.ingredients,
     };
+
+    state.recipe.bookmark = state.bookmarks.some((item) => item.id === id);
   } catch (err) {
     throw err;
   }
@@ -79,4 +83,9 @@ export const updateServings = (newServings: number) => {
   state.recipe.ingredients.forEach((item) => (item.quantity *= newServings / currentServings));
 
   state.recipe.servings = newServings;
+};
+
+export const addBookmark = () => {
+  state.recipe.bookmark = true;
+  state.bookmarks.push(state.recipe);
 };

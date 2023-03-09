@@ -9,4 +9,5 @@ export default interface Recipe {
   servings: number;
   cookingTime: number;
   ingredients: Ingredient[];
+  bookmark?: boolean;
 }
