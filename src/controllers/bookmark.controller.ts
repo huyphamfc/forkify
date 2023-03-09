@@ -2,7 +2,12 @@ import * as model from '../model';
 import { recipeView } from '../views';
 
 const bookmarkController = () => {
-  model.addBookmark();
+  if (model.state.recipe.bookmark) {
+    model.removeBookmark();
+  } else {
+    model.addBookmark();
+  }
+
   recipeView.render();
 };
 

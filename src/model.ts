@@ -70,7 +70,6 @@ export const loadSearchResults = async () => {
 
 export const getSearchResultsPage = () => {
   const { page, results, resultsPerPage } = state.search;
-
   const startPage = (page - 1) * resultsPerPage;
   const endPage = page * resultsPerPage;
 
@@ -79,13 +78,17 @@ export const getSearchResultsPage = () => {
 
 export const updateServings = (newServings: number) => {
   const currentServings = state.recipe.servings;
-
   state.recipe.ingredients.forEach((item) => (item.quantity *= newServings / currentServings));
-
   state.recipe.servings = newServings;
 };
 
 export const addBookmark = () => {
   state.recipe.bookmark = true;
   state.bookmarks.push(state.recipe);
+};
+
+export const removeBookmark = () => {
+  const itemIndex = state.bookmarks.findIndex((item) => item.id === state.recipe.id);
+  state.bookmarks.splice(itemIndex, 1);
+  state.recipe.bookmark = false;
 };
