@@ -1,7 +1,7 @@
 import icons from '../assets/images/icons.svg';
 
 export default abstract class View {
-  constructor(private _container: HTMLElement) {}
+  constructor(protected _container: HTMLElement) {}
 
   protected abstract _generateMarkup(): string;
 
