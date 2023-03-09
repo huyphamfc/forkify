@@ -8,7 +8,7 @@ const searchController = async () => {
 
     searchResultsView.renderSpinner();
 
-    await loadSearchResults(query);
+    await loadSearchResults();
 
     searchResultsView.render();
 

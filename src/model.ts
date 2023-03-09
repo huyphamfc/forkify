@@ -45,11 +45,9 @@ export const loadRecipe = async (id: string) => {
   }
 };
 
-export const loadSearchResults = async (query: string) => {
+export const loadSearchResults = async () => {
   try {
-    state.search.query = query;
-
-    const result = await getJSON(`${API_URL}/?search=${query}`);
+    const result = await getJSON(`${API_URL}/?search=${state.search.query}`);
 
     const { recipes } = result.data;
 
