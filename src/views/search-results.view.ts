@@ -1,4 +1,4 @@
-import { state } from '../model';
+import { getSearchResultsPage } from '../model';
 import View from './view';
 import { SearchResult } from '../types';
 
@@ -24,7 +24,9 @@ class SearchResultsView extends View {
   }
 
   protected override _generateMarkup() {
-    return state.search.results.map((item) => this._generatePreviewMarkup(item)).join('');
+    return getSearchResultsPage()
+      .map((item) => this._generatePreviewMarkup(item))
+      .join('');
   }
 
   protected override _errMsg = 'No recipes found for your query. Please try again.';
