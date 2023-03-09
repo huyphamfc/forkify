@@ -4,6 +4,34 @@ import { Ingredient } from '../types';
 import icons from '../assets/images/icons.svg';
 
 class RecipeView extends View {
+  addEventHandler(handler: () => Promise<void>) {
+    ['hashchange', 'load'].forEach((e) => window.addEventListener(e, handler));
+  }
+
+  addServingHandler(handler: () => void) {
+    this._container.addEventListener('click', (e) => {
+      if (!(e.target instanceof (HTMLElement && SVGElement))) return;
+
+      const btn = e.target.closest('.btn--tiny') as HTMLButtonElement;
+      if (!btn) return;
+
+      const currentServings = state.recipe.servings;
+      if (btn.classList.contains('btn--increase-servings')) {
+        this._newServings = currentServings + 1;
+      } else {
+        this._newServings = currentServings - 1;
+      }
+
+      handler();
+    });
+  }
+
+  private _newServings: number = state.recipe.servings;
+  get newServings() {
+    if (this._newServings === state.recipe.servings) return 0;
+    return this._newServings;
+  }
+
   private _generateIngredientMarkup() {
     return state.recipe.ingredients
       .map(
@@ -48,10 +76,10 @@ class RecipeView extends View {
           <span class="recipe__info-data recipe__info-data--people">${state.recipe.servings}</span>
           <span class="recipe__info-text">servings</span>
           <div class="recipe__info-buttons">
-            <button class="btn--tiny btn--increase-servings">
+            <button class="btn--tiny btn--decrease-servings">    
               <svg>
                 <use href="${icons}#icon-minus-circle"></use>
-              </svg>
+              </svg>             
             </button>
             <button class="btn--tiny btn--increase-servings">
               <svg>
@@ -95,10 +123,6 @@ class RecipeView extends View {
   }
 
   protected override _errMsg = 'We could not find that recipe. Please try another again.';
-
-  addEventHandler(handler: () => Promise<void>) {
-    ['hashchange', 'load'].forEach((e) => window.addEventListener(e, handler));
-  }
 }
 
 const recipeContainer = document.querySelector('.recipe') as HTMLDivElement;
