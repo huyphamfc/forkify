@@ -1,5 +1,5 @@
 import { loadSearchResults } from '../model';
-import { searchView, searchResultsView } from '../views';
+import { searchView, searchResultsView, paginationView } from '../views';
 
 const searchController = async () => {
   try {
@@ -11,6 +11,8 @@ const searchController = async () => {
     await loadSearchResults(query);
 
     searchResultsView.render();
+
+    paginationView.render();
   } catch (err) {
     console.error(err);
   }
