@@ -1,5 +1,5 @@
 import * as recipeModel from '../model';
-import { recipeView } from '../views';
+import { recipeView, searchResultsView } from '../views';
 
 const recipeController = async () => {
   try {
@@ -9,6 +9,8 @@ const recipeController = async () => {
     recipeView.renderSpinner();
 
     await recipeModel.loadRecipe(id);
+
+    if (recipeModel.state.search.results.length !== 0) searchResultsView.render();
 
     recipeView.render();
   } catch (err) {

@@ -5,10 +5,11 @@ import { SearchResult } from '../types';
 class SearchResultsView extends View {
   private _generatePreviewMarkup(item: SearchResult) {
     const { id, title, publisher, imgUrl } = item;
+    const hash = window.location.hash.slice(1);
 
     return `
       <li class="preview">
-        <a class="preview__link" href="#${id}">
+        <a class="preview__link ${id === hash ? 'preview__link--active' : ''}" href="#${id}">
           <figure class="preview__fig">
             <img src="${imgUrl}" alt="${title}" />
           </figure>
