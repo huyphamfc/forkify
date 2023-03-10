@@ -3,6 +3,10 @@ import View from './view';
 import { SearchResult } from '../types';
 
 class BookmarkView extends View {
+  loadHandler(handler: () => void) {
+    window.addEventListener('load', () => handler());
+  }
+
   private _generateBookmarkMarkup(item: SearchResult) {
     const { id, title, publisher, imgUrl } = item;
     const hash = window.location.hash.slice(1);
